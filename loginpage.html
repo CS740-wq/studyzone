@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Animated Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --color-pink: #E84393;
+            --color-purple-light: #8A4FFF;
+            --color-purple-dark: #3e1b72;
+            --color-magenta-dark: #c21a68;
+            --color-text-light: #f0eafc;
+            --color-text-dark: #2c003e;
+            --color-white: #FFFFFF;
+            --color-error: #ff4d4d;
+            --color-success: #4dff88;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            width: 90vw;
+            max-width: 1100px;
+            height: 90vh;
+            max-height: 700px;
+            background: var(--color-white);
+            border-radius: 20px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .panel {
+            flex: 1;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            overflow-y: auto;
+        }
+        
+        .panel::-webkit-scrollbar { width: 8px; }
+        .panel::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); border-radius: 10px; }
+        .panel::-webkit-scrollbar-thumb { background: var(--color-purple-light); border-radius: 10px; }
+        .panel::-webkit-scrollbar-thumb:hover { background: var(--color-pink); }
+
+        .panel::before, .panel::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+            will-change: transform, border-radius;
+        }
+        .welcome-panel::before { background: rgba(232, 67, 147, 0.3); width: 300px; height: 300px; top: -50px; left: -100px; }
+        .welcome-panel::after { background: rgba(232, 67, 147, 0.2); width: 400px; height: 400px; bottom: -80px; right: -120px; animation-delay: -5s; }
+        .login-panel::before { background: rgba(62, 27, 114, 0.4); width: 350px; height: 350px; top: -100px; right: -150px; }
+        .login-panel::after { background: rgba(138, 79, 255, 0.3); width: 250px; height: 250px; bottom: -50px; left: -80px; animation-delay: -7s; }
+
+        .welcome-panel {
+            background-color: #fce9f2;
+            animation: slideInLeft 1s ease-out forwards;
+            text-align: left;
+            align-items: flex-start;
+            padding-bottom: 60px;
+        }
+        .welcome-content { animation: fadeIn 1.5s ease-in-out 0.5s forwards; opacity: 0; width: 100%; }
+        .welcome-content h1 { font-size: 2.2rem; color: var(--color-text-dark); margin-bottom: 15px; }
+        .welcome-content p { font-size: 0.9rem; color: #6d4b7c; line-height: 1.6; max-width: 400px; }
+        .illustration { margin-top: 40px; position: relative; width: 300px; height: 300px; margin-left: auto; margin-right: auto; }
+        .rocket-bg { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); width: 280px; height: 140px; background: var(--color-magenta-dark); border-radius: 140px 140px 0 0; }
+        .rocket { position: absolute; width: 80px; height: 150px; bottom: 110px; left: 50%; transform: translateX(-50%); animation: rocket-bob 3s infinite ease-in-out; z-index: 5; }
+        .rocket-body { width: 80px; height: 120px; background: var(--color-white); border-radius: 50% 50% 20% 20%; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .rocket-body::before { content:''; position: absolute; top: -25px; left: 15px; width: 50px; height: 50px; background: var(--color-pink); border-radius: 50% 50% 0 0; }
+        .window { position: absolute; top: 35px; left: 20px; width: 40px; height: 40px; background: var(--color-purple-dark); border-radius: 50%; border: 5px solid #e0e0e0; }
+        .fin { position: absolute; bottom: 5px; width: 30px; height: 50px; background: var(--color-pink); }
+        .fin-left { left: -20px; border-radius: 50% 0 0 50%; }
+        .fin-right { right: -20px; border-radius: 0 50% 50% 0; }
+        .flame { position: absolute; bottom: -30px; left: 20px; width: 40px; height: 40px; background: orangered; border-radius: 0 0 45% 45%; }
+        .cloud { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 300px; height: 150px; animation: cloud-pulse 4s infinite ease-in-out; }
+        .cloud-part { position: absolute; background: var(--color-white); border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .cloud-part:nth-child(1) { width: 150px; height: 150px; bottom: 0; left: 75px; }
+        .cloud-part:nth-child(2) { width: 100px; height: 100px; bottom: 0; left: 0px; }
+        .cloud-part:nth-child(3) { width: 120px; height: 120px; bottom: 0; right: 0px; }
+        .star { position: absolute; background: white; border-radius: 50%; animation: float-up 10s infinite linear; }
+        .star1 { width: 20px; height: 20px; bottom: 100px; left: 40px; animation-duration: 8s;}
+        .star2 { width: 15px; height: 15px; bottom: 150px; left: 240px; animation-duration: 12s;}
+        .star3 { width: 25px; height: 25px; bottom: 50px; left: 200px; animation-duration: 6s;}
+
+        .login-panel { background: var(--color-purple-dark); color: var(--color-text-light); animation: slideInRight 1s ease-out forwards; padding-bottom: 60px; }
+        .login-form { width: 100%; max-width: 320px; animation: fadeIn 1.5s ease-in-out 0.5s forwards; opacity: 0; }
+        .login-form h2 { font-size: 1.8rem; text-align: center; margin-bottom: 35px; letter-spacing: 2px; }
+        .input-group { position: relative; margin-bottom: 25px; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; transition: color 0.3s ease; }
+        .input-group input { width: 100%; padding: 15px 15px 15px 45px; background: rgba(255, 255, 255, 0.9); border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 1rem; color: var(--color-text-dark); outline: none; transition: all 0.3s ease; }
+        .input-group input:focus { background: white; box-shadow: 0 0 0 3px var(--color-purple-light); }
+        .input-group input:focus + i { color: var(--color-purple-light); }
+        .options { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; margin-bottom: 30px; }
+        .remember-me { display: flex; align-items: center; cursor: pointer; gap: 8px; }
+        .options a { color: var(--color-text-light); text-decoration: none; transition: color 0.3s ease; }
+        .options a:hover { color: var(--color-pink); }
+        
+        /* Message styling for errors/success */
+        .message {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: none; /* Hidden by default */
+        }
+        .message.error { background-color: rgba(255, 77, 77, 0.2); color: var(--color-error); }
+        .message.success { background-color: rgba(77, 255, 136, 0.2); color: var(--color-success); }
+        
+        .login-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; background: var(--color-pink); color: var(--color-white); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .login-btn:hover { background: var(--color-magenta-dark); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(232, 67, 147, 0.3); }
+        .signup-link { text-align: center; margin-top: 35px; font-size: 0.9rem; color: var(--color-text-light); }
+        .signup-link a { color: var(--color-purple-light); font-weight: 600; text-decoration: none; transition: color 0.3s ease; cursor: pointer; }
+        .signup-link a:hover { color: var(--color-pink); text-decoration: underline; }
+        
+        @media (max-width: 992px) {
+            .container { flex-direction: column; width: 95vw; max-width: 500px; height: auto; max-height: 90vh; }
+            .welcome-panel { display: none; }
+            .login-panel { animation: fadeIn 1s ease-out forwards; }
+        }
+        @media (max-width: 768px) { .panel { padding: 30px; } }
+        
+        @keyframes slideInLeft { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes rocket-bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -15px); } }
+        @keyframes cloud-pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.03); } }
+        @keyframes float { 0% { transform: translate(0, 0) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 50% { transform: translate(20px, -30px) rotate(180deg); border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 100% { transform: translate(0, 0) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } }
+        @keyframes float-up { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-200px); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Welcome Panel (Left Side) -->
+        <div class="panel welcome-panel">
+            <div class="welcome-content">
+                <h1>WELCOME TO THE WEBSITE</h1>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div class="illustration">
+                <div class="rocket-bg"></div>
+                <div class="star star1"></div>
+                <div class="star star2"></div>
+                <div class="star star3"></div>
+                <div class="cloud"><div class="cloud-part"></div><div class="cloud-part"></div><div class="cloud-part"></div></div>
+                <div class="rocket"><div class="rocket-body"><div class="window"></div><div class="fin fin-left"></div><div class="fin fin-right"></div><div class="flame"></div></div></div>
+            </div>
+        </div>
+
+        <!-- Login Panel (Right Side) -->
+        <div class="panel login-panel">
+            <form class="login-form" id="loginForm">
+                <h2>USER LOGIN</h2>
+                
+                <!-- This div will display messages from Firebase -->
+                <div id="message-box" class="message"></div>
+
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                
+                <div class="options">
+                    <label class="remember-me"><input type="checkbox" id="remember"> Remember Me</label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+                
+                <div class="signup-link">
+                    Don't have an account? <a id="signup-btn">Sign Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5G9dH-cn1oV_72Yc-GMLuGUY6LNkcDNg",
+            authDomain: "vartax-a323c.firebaseapp.com",
+            projectId: "vartax-a323c",
+            storageBucket: "vartax-a323c.appspot.com", // Corrected the storage bucket domain
+            messagingSenderId: "220454520676",
+            appId: "1:220454520676:web:b21a5181017ab5dc755c71",
+            measurementId: "G-7RHDPG59QK"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const analytics = firebase.analytics();
+
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const signupBtn = document.getElementById('signup-btn');
+        const messageBox = document.getElementById('message-box');
+
+        // Function to display messages
+        function showMessage(text, type) {
+            messageBox.textContent = text;
+            messageBox.className = 'message'; // Reset classes
+            messageBox.classList.add(type); // Add 'error' or 'success'
+            messageBox.style.display = 'block';
+        }
+
+        // Handle Login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+              
+                    showMessage('Login successful! Redirecting...', 'success');
+                    // Redirect to another page after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html'; // <-- CHANGE THIS to your dashboard/home page
+                    }, 1500);
+                })
+                .catch((error) => {
+                    showMessage(error.message, 'error');
+                });
+        });
+
+        // Handle Sign Up
+        signupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            if (password.length < 6) {
+                showMessage('Password should be at least 6 characters long.', 'error');
+                return;
+            }
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    showMessage('Account created successfully! Redirecting...', 'success');
+                    // Redirect to another page
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html'; // <-- CHANGE THIS to your dashboard/home page
+                    }, 1500);
+                })
+                .catch((error) => {
+                    showMessage(error.message, 'error');
+                });
+        });
+    </script>
+
+</body>
+</html>
