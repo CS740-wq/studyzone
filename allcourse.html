@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unacademy Goal Selection - All Goals</title>
+    
+    <!-- Google Fonts for Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ---------------------------------- */
+        /*         1. MAIN CSS STYLING      */
+        /* ---------------------------------- */
+        :root {
+            --bg-page: #F7F8FA;
+            --bg-card: #FFFFFF;
+            --text-primary: #3C4852;
+            --text-secondary: #6A7883;
+            --brand-green: #08BD80;
+            --border-color: #EAECEF;
+            --shadow-color: rgba(60, 72, 82, 0.1);
+            --font-family: 'Lato', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .goal-selector-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 2.5rem; margin-bottom: 8px; }
+        .header p { font-size: 1.1rem; color: var(--text-secondary); }
+
+        .search-container { position: relative; margin-bottom: 40px; }
+        #goal-search {
+            width: 100%; padding: 16px 20px 16px 50px; font-size: 1rem;
+            border: 1px solid var(--border-color); border-radius: 8px;
+            background-color: var(--bg-card); transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        #goal-search:focus {
+            outline: none; border-color: var(--brand-green);
+            box-shadow: 0 0 0 3px rgba(8, 189, 128, 0.2);
+        }
+        .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; stroke: var(--text-secondary); }
+
+        .category-section { margin-bottom: 50px; }
+        .category-section.hidden { display: none; }
+        .category-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); }
+
+        .goal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 20px; }
+
+        .goal-card {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 24px 16px; background-color: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 12px; text-align: center; cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease; min-height: 150px;
+        }
+        .goal-card.hidden { display: none; }
+        .goal-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px var(--shadow-color); }
+        .card-icon { width: 48px; height: 48px; margin-bottom: 16px; color: var(--brand-green); stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+        .card-label { font-size: 1rem; font-weight: 400; color: var(--text-primary); }
+        
+        @media (max-width: 768px) { .goal-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } }
+        @media (max-width: 480px) { .goal-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Icon Definitions for reuse -->
+    <svg style="display: none;">
+        <symbol id="icon-clipboard-check" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><polyline points="9 15 11 17 15 13"></polyline></symbol>
+        <symbol id="icon-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></symbol>
+        <symbol id="icon-courthouse" viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 21v-8h6v8"></path><path d="M1 21h22"></path></symbol>
+        <symbol id="icon-microscope" viewBox="0 0 24 24"><path d="M6 18h8"></path><path d="M3 22h18"></path><path d="M14 22a7 7 0 1 0 0-14h-1"></path><path d="M9 14.72A4.5 4.5 0 0 1 11 14h0a4.5 4.5 0 0 1 4.5 4.5v0"></path><path d="M14 14V4a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1v3"></path><path d="M11 6.5h.01"></path></symbol>
+        <symbol id="icon-graph" viewBox="0 0 24 24"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></symbol>
+        <symbol id="icon-jet" viewBox="0 0 24 24"><path d="m15.54 13.55.9-1.42c.26-.42.23-.97-.08-1.35l-4.24-4.24c-.38-.38-.93-.4-1.35-.08l-1.42.9L2 14.5l1.5 5.5 5.5-1.5 6.54-6.54z"></path><path d="m22 2-2.5 2.5"></path></symbol>
+        <symbol id="icon-medal" viewBox="0 0 24 24"><path d="M12 6l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1z"></path><path d="M12 2v4"></path><path d="M6.7 18.3l-2.4 1.4 1.4-2.4"></path><path d="M17.3 18.3l2.4 1.4-1.4-2.4"></path></symbol>
+        <symbol id="icon-scales" viewBox="0 0 24 24"><path d="M12 3l7.5 7.5-7.5 7.5-7.5-7.5L12 3z"></path><path d="M5 21h14"></path><path d="M12 3v18"></path></symbol>
+        <symbol id="icon-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20v2H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v15H6.5A2.5 2.5 0 0 1 4 14.5Z"></path></symbol>
+        <symbol id="icon-train" viewBox="0 0 24 24"><path d="M16 16.42a1 1 0 0 1-1-1v-2.84a1 1 0 0 1 .69-.95l2.4-.8a1 1 0 0 1 1.22.69l.13.43a1 1 0 0 1-1 .95h-1.44v2.54a1 1 0 0 1-1 1z"></path><path d="M8 16.42a1 1 0 0 1-1-1v-2.84a1 1 0 0 1 .69-.95l2.4-.8a1 1 0 0 1 1.22.69l.13.43a1 1 0 0 1-1 .95H8.56v2.54a1 1 0 0 1-1 1z"></path><path d="M21 12H3"></path><path d="M21 8H3"></path><path d="M18 4H6"></path></symbol>
+        <symbol id="icon-books-stack" viewBox="0 0 24 24"><path d="M4 18l8-3 8 3-8 3-8-3z"></path><path d="M4 13l8-3 8 3"></path><path d="M4 8l8-3 8 3"></path></symbol>
+        <symbol id="icon-notebook-pen" viewBox="0 0 24 24"><path d="M2 6h4"></path><path d="M2 10h4"></path><path d="M2 14h4"></path><path d="M2 18h4"></path><rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect><path d="M12.5 8.5l-6 6"></path><path d="m15 5-3 3"></path></symbol>
+    </svg>
+
+    <div class="goal-selector-container">
+        <header class="header">
+            <h1>Choose your goal</h1>
+            <p>Select your primary learning objective to personalize your experience.</p>
+        </header>
+
+        <div class="search-container">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="goal-search" placeholder="Search for your goal (e.g., IIT JEE, Bank, CAT...)">
+        </div>
+
+        <div id="goal-categories">
+            
+            <section class="category-section"><h2 class="category-title">GATE, ESE and IIT-JAM</h2><div class="goal-grid">
+                <div class="goal-card" data-goal-name="GATE - CSIT, DSAI & Interview Preparation"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GATE - CSIT, DSAI & Interview Preparation</span></div>
+                <div class="goal-card" data-goal-name="GATE & ESE - ME & CH"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GATE & ESE - ME & CH</span></div>
+                <div class="goal-card" data-goal-name="GATE & ESE - Civil"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GATE & ESE - Civil</span></div>
+                <div class="goal-card" data-goal-name="GATE & ESE - EE, EC"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GATE & ESE - EE, EC</span></div>
+                <div class="goal-card" data-goal-name="IIT-JAM"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">IIT-JAM</span></div>
+                <div class="goal-card" data-goal-name="SSC JE & State AE Exams - (Hindi + English)"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">SSC JE & State AE Exams - (Hindi + English)</span></div>
+                <div class="goal-card" data-goal-name="GATE - PCM"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GATE - PCM</span></div>
+                <div class="goal-card" data-goal-name="GATE - XE"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GATE - XE</span></div>
+                <div class="goal-card" data-goal-name="RRB Junior Engineering"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">RRB Junior Engineering</span></div>
+            </div></section>
+            
+            <section class="category-section"><h2 class="category-title">CA, CS, and CMA</h2><div class="goal-grid">
+                <div class="goal-card" data-goal-name="CA Final Group 1"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CA Final Group 1</span></div>
+                <div class="goal-card" data-goal-name="CA Final Group 2"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CA Final Group 2</span></div>
+                <div class="goal-card" data-goal-name="CA Intermediate"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CA Intermediate</span></div>
+                <div class="goal-card" data-goal-name="CA Foundation"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CA Foundation</span></div>
+                <div class="goal-card" data-goal-name="CS Professional - Module 2"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CS Professional - Module 2</span></div>
+                <div class="goal-card" data-goal-name="CS Professional - Module 1"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CS Professional - Module 1</span></div>
+                <div class="goal-card" data-goal-name="CS Executive - Module 2"><svg class="card-icon"><use xlink:href="#icon-user"/></svg><span class="card-label">CS Executive - Module 2</span></div>
+                <div class="goal-card" data-goal-name="CS Executive - Module 1"><svg class="card-icon"><use xlink:href="#icon-user"/></svg><span class="card-label">CS Executive - Module 1</span></div>
+                <div class="goal-card" data-goal-name="CSEET"><svg class="card-icon"><use xlink:href="#icon-user"/></svg><span class="card-label">CSEET</span></div>
+                <div class="goal-card" data-goal-name="CA Final Audit"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CA Final Audit</span></div>
+            </div></section>
+
+            <section class="category-section"><h2 class="category-title">Judiciary Exams</h2><div class="goal-grid">
+                <div class="goal-card" data-goal-name="Judiciary - PCS (J)"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">Judiciary - PCS (J)</span></div>
+                <div class="goal-card" data-goal-name="Judiciary PCS - Iconic Pro"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Judiciary PCS - Iconic Pro</span></div>
+            </div></section>
+
+            <section class="category-section"><h2 class="category-title">NET Exams</h2><div class="goal-grid">
+                <div class="goal-card" data-goal-name="CSIR-UGC NET"><svg class="card-icon"><use xlink:href="#icon-microscope"/></svg><span class="card-label">CSIR-UGC NET</span></div>
+                <div class="goal-card" data-goal-name="NTA-UGC-NET & SET Exams"><svg class="card-icon"><use xlink:href="#icon-graph"/></svg><span class="card-label">NTA-UGC-NET & SET Exams</span></div>
+                <div class="goal-card" data-goal-name="NTA Iconic Pro"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">NTA Iconic Pro</span></div>
+            </div></section>
+            
+            <section class="category-section"><h2 class="category-title">Defence Exams</h2><div class="goal-grid">
+                <div class="goal-card" data-goal-name="Services Selection Board (SSB)"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Services Selection Board (SSB)</span></div>
+                <div class="goal-card" data-goal-name="NDA"><svg class="card-icon"><use xlink:href="#icon-jet"/></svg><span class="card-label">NDA</span></div>
+                <div class="goal-card" data-goal-name="Agnipath Exams"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Agnipath Exams</span></div>
+                <div class="goal-card" data-goal-name="CDS/AFCAT/CAPF"><svg class="card-icon"><use xlink:href="#icon-medal"/></svg><span class="card-label">CDS/AFCAT/CAPF</span></div>
+            </div></section>
+
+            <section class="category-section"><h2 class="category-title">CLAT & Other Law Entrance Exams</h2><div class="goal-grid">
+                <div class="goal-card" data-goal-name="CLAT & Other 5-year LLB Exams"><svg class="card-icon"><use xlink:href="#icon-scales"/></svg><span class="card-label">CLAT & Other 5-year LLB Exams</span></div>
+                <div class="goal-card" data-goal-name="3-Year LLB Entrance Exams"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">3-Year LLB Entrance Exams</span></div>
+                <div class="goal-card" data-goal-name="CLAT PG & Other LLM Exams"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CLAT PG & Other LLM Exams</span></div>
+            </div></section>
+            
+            <section class="category-section"><h2 class="category-title">Others</h2><div class="goal-grid">
+                <div class="goal-card" data-goal-name="English by Rani Singh"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">English by Rani Singh</span></div>
+                <div class="goal-card" data-goal-name="MHT CET"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">MHT CET</span></div>
+                <div class="goal-card" data-goal-name="NEET PG (Live)"><svg class="card-icon"><use xlink:href="#icon-user"/></svg><span class="card-label">NEET PG (Live)</span></div>
+                <div class="goal-card" data-goal-name="SSC GD Constable"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">SSC GD Constable</span></div>
+                <div class="goal-card" data-goal-name="NEET UG - Hindi Medium"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">NEET UG - Hindi Medium</span></div>
+                <div class="goal-card" data-goal-name="CMA Foundation"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CMA Foundation</span></div>
+                <div class="goal-card" data-goal-name="IELTS"><svg class="card-icon"><use xlink:href="#icon-book"/></svg><span class="card-label">IELTS</span></div>
+                <div class="goal-card" data-goal-name="TNPSC Group 4 and VAO"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">TNPSC Group 4 and VAO</span></div>
+                <div class="goal-card" data-goal-name="Karnataka PSC"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">Karnataka PSC</span></div>
+                <div class="goal-card" data-goal-name="JPSC"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">JPSC</span></div>
+                <div class="goal-card" data-goal-name="Kerala PSC"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">Kerala PSC</span></div>
+                <div class="goal-card" data-goal-name="TNPSC"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">TNPSC</span></div>
+                <div class="goal-card" data-goal-name="MPSC"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">MPSC</span></div>
+                <div class="goal-card" data-goal-name="CGPSC"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">CGPSC</span></div>
+                <div class="goal-card" data-goal-name="Bihar State Exams"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">Bihar State Exams</span></div>
+                <div class="goal-card" data-goal-name="Uttar Pradesh State Exams"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">Uttar Pradesh State Exams</span></div>
+                <div class="goal-card" data-goal-name="Rajasthan State Exams"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">Rajasthan State Exams</span></div>
+                <div class="goal-card" data-goal-name="Railway Exams"><svg class="card-icon"><use xlink:href="#icon-train"/></svg><span class="card-label">Railway Exams</span></div>
+                <div class="goal-card" data-goal-name="SSC CHSL"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">SSC CHSL</span></div>
+                <div class="goal-card" data-goal-name="APPSC and TSPSC Live"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">APPSC and TSPSC Live</span></div>
+                <div class="goal-card" data-goal-name="IIT JEE Rank Booster"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">IIT JEE Rank Booster</span></div>
+                <div class="goal-card" data-goal-name="Uttarakhand PSC"><svg class="card-icon"><use xlink:href="#icon-courthouse"/></svg><span class="card-label">Uttarakhand PSC</span></div>
+                <div class="goal-card" data-goal-name="Direct Tax Regular"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Direct Tax Regular</span></div>
+                <div class="goal-card" data-goal-name="Commercial Pilot License"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Commercial Pilot License</span></div>
+                <div class="goal-card" data-goal-name="CUET UG Domain"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CUET UG Domain</span></div>
+                <div class="goal-card" data-goal-name="SAT"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">SAT</span></div>
+                <div class="goal-card" data-goal-name="GRE"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GRE</span></div>
+                <div class="goal-card" data-goal-name="GMAT"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GMAT</span></div>
+                <div class="goal-card" data-goal-name="Spoken English"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Spoken English</span></div>
+                <div class="goal-card" data-goal-name="GPAT & Other Pharma Exams"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">GPAT & Other Pharma Exams</span></div>
+                <div class="goal-card" data-goal-name="EPFO Exams"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">EPFO Exams</span></div>
+                <div class="goal-card" data-goal-name="NORCET"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">NORCET</span></div>
+                <div class="goal-card" data-goal-name="NCHMCT JEE"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">NCHMCT JEE</span></div>
+                <div class="goal-card" data-goal-name="DSSSB/KVS/SuperTET/NVS/APS"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">DSSSB/KVS/SuperTET/NVS/APS</span></div>
+                <div class="goal-card" data-goal-name="Teaching Superpack"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Teaching Superpack</span></div>
+                <div class="goal-card" data-goal-name="CFA Level 1"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">CFA Level 1</span></div>
+                <div class="goal-card" data-goal-name="Agriculture Exams"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Agriculture Exams</span></div>
+                <div class="goal-card" data-goal-name="MBBS Prof 1"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">MBBS Prof 1</span></div>
+            </div></section>
+            
+            <section class="category-section"><h2 class="category-title">Class 6-12</h2><div class="goal-grid">
+                <div class="goal-card" data-goal-name="CBSE Class 12"><svg class="card-icon"><use xlink:href="#icon-books-stack"/></svg><span class="card-label">CBSE Class 12</span></div>
+                <div class="goal-card" data-goal-name="CBSE Class 11"><svg class="card-icon"><use xlink:href="#icon-books-stack"/></svg><span class="card-label">CBSE Class 11</span></div>
+                <div class="goal-card" data-goal-name="CBSE Class 10"><svg class="card-icon"><use xlink:href="#icon-books-stack"/></svg><span class="card-label">CBSE Class 10</span></div>
+                <div class="goal-card" data-goal-name="CBSE Class 9"><svg class="card-icon"><use xlink:href="#icon-books-stack"/></svg><span class="card-label">CBSE Class 9</span></div>
+                <div class="goal-card" data-goal-name="CBSE Class 8"><svg class="card-icon"><use xlink:href="#icon-notebook-pen"/></svg><span class="card-label">CBSE Class 8</span></div>
+                <div class="goal-card" data-goal-name="CBSE Class 7"><svg class="card-icon"><use xlink:href="#icon-notebook-pen"/></svg><span class="card-label">CBSE Class 7</span></div>
+                <div class="goal-card" data-goal-name="CBSE Class 6"><svg class="card-icon"><use xlink:href="#icon-notebook-pen"/></svg><span class="card-label">CBSE Class 6</span></div>
+                <div class="goal-card" data-goal-name="ICSE Class 10"><svg class="card-icon"><use xlink:href="#icon-notebook-pen"/></svg><span class="card-label">ICSE Class 10</span></div>
+                <div class="goal-card" data-goal-name="ICSE Class 9"><svg class="card-icon"><use xlink:href="#icon-notebook-pen"/></svg><span class="card-label">ICSE Class 9</span></div>
+                <div class="goal-card" data-goal-name="Creative Corner"><svg class="card-icon"><use xlink:href="#icon-notebook-pen"/></svg><span class="card-label">Creative Corner</span></div>
+                <div class="goal-card" data-goal-name="Class 10th Hindi Medium"><svg class="card-icon"><use xlink:href="#icon-clipboard-check"/></svg><span class="card-label">Class 10th Hindi Medium</span></div>
+                <div class="goal-card" data-goal-name="Class 12th Hindi Medium"><svg class="card-icon"><use xlink:href="#icon-books-stack"/></svg><span class="card-label">Class 12th Hindi Medium</span></div>
+                <div class="goal-card" data-goal-name="Class 11th Hindi Medium"><svg class="card-icon"><use xlink:href="#icon-books-stack"/></svg><span class="card-label">Class 11th Hindi Medium</span></div>
+                <div class="goal-card" data-goal-name="ISC Class 11"><svg class="card-icon"><use xlink:href="#icon-notebook-pen"/></svg><span class="card-label">ISC Class 11</span></div>
+            </div></section>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // === Element Selection ===
+            const searchInput = document.getElementById('goal-search');
+            const goalCards = document.querySelectorAll('.goal-card');
+            const categorySections = document.querySelectorAll('.category-section');
+
+            // === Search Filter Logic ===
+            const filterGoals = () => {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                categorySections.forEach(section => {
+                    let hasVisibleCards = false;
+                    const cardsInSection = section.querySelectorAll('.goal-card');
+                    cardsInSection.forEach(card => {
+                        const goalName = card.dataset.goalName.toLowerCase();
+                        const isVisible = goalName.includes(searchTerm);
+                        card.classList.toggle('hidden', !isVisible);
+                        if (isVisible) {
+                            hasVisibleCards = true;
+                        }
+                    });
+                    section.classList.toggle('hidden', !hasVisibleCards);
+                });
+            };
+            searchInput.addEventListener('input', filterGoals);
+
+            // === CARD CLICK LOGIC (UPDATED) ===
+            // Har ek goal card par click event lagao
+            goalCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Page ko 'poppup.html' par redirect karo
+                    window.location.href = 'poppup.html'; 
+                });
+            });
+            
+        });
+    </script>
+</body>
+</html>
