@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDY RATNA - Home</title>
+    
+    <!-- Main Page Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Pop-up Fonts: Playfair Display & Inter (Can be removed if not used elsewhere) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =================================================================== */
+        /* ============== 🎨 NEW FUTURISTIC COLOR THEME 🎨 ================== */
+        /* =================================================================== */
+        :root {
+            /* New Theme Variables (Futuristic Purple & Pink) */
+            --theme-bg-dark: #3e1b72;
+            --theme-accent-pink: #E84393;
+            --theme-accent-purple: #8A4FFF;
+            --theme-pink-hover: #c21a68;
+            --theme-text-light: #f0eafc;
+            --theme-text-dark: #2c003e;
+            
+            --bg-main: #f5f7fa; /* Soft neutral background */
+            --bg-cards: #FFFFFF;
+            --text-muted: #a9a4b8;
+            --shadow-color: rgba(138, 79, 255, 0.2); /* Shadow based on light purple */
+            --red-badge: #FF4D4D; /* Unchanged for notifications */
+            --white: #FFFFFF;
+        }
+
+        /* Basic Reset and Body Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-main); /* CHANGED */
+            color: var(--theme-text-dark); /* CHANGED */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px 0;
+            overflow-x: hidden;
+        }
+
+        /* Mobile Screen Container */
+        .mobile-screen {
+            width: 100%;
+            max-width: 420px;
+            background-color: var(--bg-cards); /* CHANGED */
+            border-radius: 40px;
+            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+            padding-bottom: 80px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        main {
+            padding: 0 20px;
+        }
+
+        /* 🔝 Header Section */
+        .app-header {
+            background: linear-gradient(135deg, var(--theme-accent-purple), var(--theme-bg-dark)); /* CHANGED */
+            color: var(--white);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-logo {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 700;
+            animation: slideDown 0.6s ease-out;
+        }
+        
+        .app-logo i {
+            margin-right: 10px;
+            animation: spin 2s linear infinite;
+        }
+
+        .header-icon i {
+            font-size: 24px;
+            color: var(--white);
+            transition: transform 0.3s ease, color 0.3s ease;
+            animation: slideDown 0.6s ease-out;
+        }
+        .header-icon i:hover {
+            transform: scale(1.2) rotate(15deg);
+            color: var(--theme-accent-pink); /* CHANGED */
+        }
+
+        /* 👋 Welcome Banner */
+        .welcome-banner {
+            background-color: var(--theme-accent-pink); /* CHANGED */
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 20px 0;
+            text-align: center;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUpFadeIn 0.7s ease-out 0.2s forwards;
+        }
+        
+        .welcome-banner p {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white); /* CHANGED for better contrast */
+        }
+
+        /* 💡 Motivational Quote Section */
+        .quote-section {
+            background: var(--theme-bg-dark); /* CHANGED */
+            color: var(--theme-text-light); /* CHANGED */
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(62, 27, 114, 0.3); /* CHANGED */
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUpFadeIn 0.7s ease-out 0.4s forwards;
+        }
+        
+        .quote-section .quote-text {
+            font-size: 16px;
+            font-style: italic;
+        }
+        
+        .quote-section .quote-author {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+        
+        /* 📚 Modules Section */
+        .modules-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding: 0 20px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUpFadeIn 0.7s ease-out 0.6s forwards;
+        }
+        
+        .modules-grid {
+            display: grid;
+            gap: 15px;
+            padding: 0 20px 20px;
+            grid-template-columns: repeat(4, 1fr);
+            perspective: 1000px;
+        }
+
+        .module-card {
+            background-color: var(--bg-cards);
+            border-radius: 18px;
+            padding: 12px;
+            box-shadow: 0 5px 20px var(--shadow-color); /* Variable is updated */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            color: var(--theme-text-dark); /* CHANGED */
+            position: relative;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            aspect-ratio: 1 / 1;
+            transform-style: preserve-3d;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        
+        .module-card.is-visible {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .module-card:hover {
+            box-shadow: 0 12px 30px rgba(138, 79, 255, 0.3); /* CHANGED */
+            transform: rotateY(15deg) rotateX(10deg) scale(1.05);
+        }
+        
+        .module-card:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease;
+        }
+
+        .module-card .module-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .module-card:hover .module-logo {
+            transform: translateZ(20px);
+        }
+
+        .module-card .module-title {
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .new-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--red-badge); /* Unchanged */
+            color: var(--white);
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 5px;
+            animation: pulse-badge 1.5s infinite;
+        }
+        
+        /* 🔽 Bottom Navigation Bar */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background-color: var(--bg-cards);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            border-top: 1px solid #e0d8ff; /* CHANGED */
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-muted); /* CHANGED */
+            font-size: 12px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item.active {
+            color: var(--theme-accent-purple); /* CHANGED */
+        }
+        
+        .nav-item:active i {
+            animation: nav-icon-bounce 0.5s ease;
+        }
+
+        /* ✨ Animations & Motion Effects (Unchanged) */
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUpFadeIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse-badge { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255, 77, 77, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); } }
+        @keyframes nav-icon-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+        /* Media Queries for Responsiveness */
+        @media (min-width: 1024px) { 
+            body { 
+                align-items: center; 
+            } 
+            .mobile-screen { 
+                max-width: 1200px; 
+            } 
+            .modules-grid { 
+                grid-template-columns: repeat(8, 1fr); 
+            } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-screen">
+        <!-- 🔝 Header Section -->
+        <header class="app-header">
+            <div class="app-logo">
+                <i class="fa-solid fa-book-open"></i>
+                <span>STUDY RATNA</span>
+            </div>
+            <a href="https://telegram.me/your-channel" target="_blank" class="header-icon">
+                <i class="fa-brands fa-telegram"></i>
+            </a>
+        </header>
+        
+        <main>
+            <!-- 👋 Welcome Banner -->
+            <div class="welcome-banner">
+                <p>Welcome Neon ❤️🔥</p>
+            </div>
+            
+            <!-- 💡 Motivational Quote Section -->
+            <div class="quote-section">
+                <p id="quoteText" class="quote-text">"Loading quote..."</p>
+                <p id="quoteAuthor" class="quote-author"></p>
+            </div>
+            
+            <!-- 📚 Modules Section Title -->
+            <h2 class="modules-title">📚 Modules</h2>
+            
+            <!-- Modules Section Grid with href links -->
+            <div class="modules-grid" id="modulesGrid">
+              
+                <a href="course-1.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWR2V.jpg" alt="Physics Wallah Logo" class="module-logo">
+                    <p class="module-title">Physics Wallah</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWGEv.jpg" alt="Vedantu Logo" class="module-logo">
+                    <p class="module-title">Vedantu</p>
+                </a>
+                <a href="course3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWM4R.jpg" alt="Unacademy Logo" class="module-logo">
+                    <p class="module-title">Unacademy</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWW2p.jpg" alt="Magnet Brains Logo" class="module-logo">
+                    <p class="module-title">Magnet Brains</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWXYN.jpg" alt="LearnoHub Logo" class="module-logo">
+                    <p class="module-title">LearnoHub</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/jI6q5fS.png" alt="Bodhaguru Logo" class="module-logo">
+                    <p class="module-title">Bodhaguru</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/jI6q3u4.png" alt="Edumantra Logo" class="module-logo">
+                    <p class="module-title">Edumantra</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRVtdN.jpg" alt="Physics Galaxy Logo" class="module-logo">
+                    <p class="module-title">Physics Galaxy</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRVD7I.jpg" alt="Aakash Institute Logo" class="module-logo">
+                    <p class="module-title">Aakash Institute</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRVbet.jpg" alt="Byju’s Logo" class="module-logo">
+                    <p class="module-title">Byju’s</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/jI6qJAb.png" alt="Vidyalaya Logo" class="module-logo">
+                    <p class="module-title">Vidyalaya</p>
+                </a>
+                <a href="popup1.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRVmmX.jpg" alt="Adda247 Logo" class="module-logo">
+                    <p class="module-title">Adda247</p>
+                </a>
+                <a href="course13.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRVyIn.jpg" alt="Next Topper Logo" class="module-logo">
+                    <p class="module-title">Next Topper</p>
+                </a>
+                <a href="popup1.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWHLG.jpg" alt="Career Launcher Logo" class="module-logo">
+                    <p class="module-title">Career Launcher</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWdBf.jpg" alt="Toppr Logo" class="module-logo">
+                    <p class="module-title">Toppr</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/jI6qgCJ.png" alt="Extramarks Logo" class="module-logo">
+                    <p class="module-title">Extramarks</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/jI6q6iG.png" alt="Khan Sir Official Logo" class="module-logo">
+                    <p class="module-title">Khan Sir (KGS)</p>
+                </a>
+                <a href="popup3.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRW214.jpg" alt="PW Bihar Govt Exams Logo" class="module-logo">
+                    <p class="module-title">PW Bihar Exams</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWK22.jpg" alt="Testbook BPSC Logo" class="module-logo">
+                    <p class="module-title">Testbook BPSC</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWf7S.jpg" alt="Adda247 Bihar Police Logo" class="module-logo">
+                    <p class="module-title">Adda247 Bihar</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWqk7.jpg" alt="Unacademy Bihar Exams Logo" class="module-logo">
+                    <p class="module-title">Unacademy Bihar</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWBp9.jpg" alt="PlutusIAS Logo" class="module-logo">
+                    <p class="module-title">PlutusIAS</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWxLb.jpg" alt="BSSEI Logo" class="module-logo">
+                    <p class="module-title">BSSEI</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWIBj.jpg" alt="SarkariPariksha Logo" class="module-logo">
+                    <p class="module-title">SarkariPariksha</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWTEx.jpg" alt="Class24 Logo" class="module-logo">
+                    <p class="module-title">Class24</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRWurQ.jpg" alt="Disha Online Classes Logo" class="module-logo">
+                    <p class="module-title">Disha Classes</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FMRW5YB.jpg" alt="Vidyakul Logo" class="module-logo">
+                    <p class="module-title">Vidyakul</p>
+                </a>
+                <a href="poppup2.html" class="module-card">
+                    <div class="new-badge">NEW</div>
+                    <img src="https://iili.io/FM53rLQ.jpg" alt="Dhruv Rathee Logo" class="module-logo">
+                    <p class="module-title">Dhruv Rathee</p>
+                </a>
+
+            </div>
+        </main>
+        
+        <nav class="bottom-nav">
+            <a href="popup1.html" class="nav-item active">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="popup2.html" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Batches</span>
+            </a>
+            <a href="popup3.html" class="nav-item">
+                <i class="fa-solid fa-pencil"></i>
+                <span>Practice</span>
+            </a>
+            <a href="Profile /profile-page.html" class="nav-item">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <span>Study Stuff</span>
+            </a>
+            <a href="loginpage.html" class="nav-item">
+                <i class="fa-solid fa-headset"></i>
+                <span>Contact Us</span>
+            </a>
+        </nav>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Original Script Logic ---
+    const quotes = [
+        { text: "Learning never exhausts the mind.", author: "— Leonardo da Vinci" },
+        { text: "The only way to do great work is to love what you do.", author: "— Steve Jobs" },
+        { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "— Winston Churchill" },
+        { text: "Believe you can and you're halfway there.", author: "— Theodore Roosevelt" },
+        { text: "The future belongs to those who believe in the beauty of their dreams.", author: "— Eleanor Roosevelt" }
+    ];
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    document.getElementById('quoteText').textContent = `"${randomQuote.text}"`;
+    document.getElementById('quoteAuthor').textContent = randomQuote.author;
+    
+    // Animate module cards on scroll
+    const moduleCards = document.querySelectorAll('.module-card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationDelay = `${index * 50}ms`;
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    moduleCards.forEach(card => observer.observe(card));
+
+});
+</script>
+
+</body>
+</html>
