@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Batches</title>
+    
+    <style>
+        :root {
+            --bg-color: #EAE6FF; --card-bg-color: #F7FAFC; --header-bg-color: #6B46C1;
+            --header-text-color: #FFFFFF; --primary-text-color: #1f1f1f; --secondary-text-color: #888;
+            --button-bg-color: #2D3748; --button-text-color: #FFFFFF; --button-hover-bg-color: #1A202C;
+            --search-bg-color: #FFFFFF;
+        }
+        .dark-mode {
+            --bg-color: #121212; --card-bg-color: #1E1E1E; --header-bg-color: #FACC15;
+            --header-text-color: #121212; --primary-text-color: #E2E8F0; --secondary-text-color: #A0AEC0;
+            --button-bg-color: #FACC15; --button-text-color: #121212; --button-hover-bg-color: #FBBF24;
+            --search-bg-color: #2D3748;
+        }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg-color); color: var(--primary-text-color); transition: background-color 0.3s ease, color 0.3s ease; padding-bottom: 80px; /* Space for the floating button */ }
+        *, *::before, *::after { box-sizing: border-box; }
+        .app-container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+        .app-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .app-header a { display: flex; align-items: center; text-decoration: none; }
+        .app-header h1 { color: var(--primary-text-color); font-size: 1.5rem; margin: 0; }
+        .app-header .back-arrow { fill: var(--primary-text-color); width: 28px; height: 28px; }
+        .search-container { display: flex; align-items: center; background-color: var(--search-bg-color); border-radius: 8px; padding: 0.25rem 0.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .search-icon { fill: var(--secondary-text-color); width: 24px; height: 24px; margin-right: 0.5rem; }
+        .search-container input { flex-grow: 1; border: none; outline: none; font-size: 1rem; padding: 0.75rem 0.25rem; background-color: transparent; color: var(--primary-text-color); }
+        .search-btn { background-color: var(--button-bg-color); color: var(--button-text-color); border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+        .search-btn:hover { background-color: var(--button-hover-bg-color); }
+        .batches-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+        .batch-card { background-color: var(--card-bg-color); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; transition: transform 0.2s ease-in-out, background-color 0.3s ease; }
+        .batch-card:hover { transform: translateY(-5px); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; background-color: var(--header-bg-color); color: var(--header-text-color); padding: 0.75rem 1rem; min-height: 60px; }
+        .batch-name { font-weight: bold; font-size: 1rem; flex-grow: 1; padding: 0 0.5rem; }
+        .icon-btn svg { fill: var(--header-text-color); width: 24px; height: 24px; }
+        .icon-btn { background: none; border: none; padding: 0.25rem; cursor: pointer; flex-shrink: 0; }
+        .card-body { padding: 0; line-height: 0; }
+        .course-details-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background-color: #e2e8f0; }
+        .card-footer { padding: 0.75rem; }
+        .roar-btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; background-color: var(--button-bg-color); color: var(--button-text-color); border: none; padding: 1rem; font-size: 1.2rem; font-weight: bold; letter-spacing: 1px; border-radius: 8px; cursor: pointer; transition: background-color 0.2s; }
+        .roar-btn:hover { background-color: var(--button-hover-bg-color); }
+        .roar-btn .lion-icon { fill: var(--button-text-color); width: 24px; height: 24px; }
+        .theme-toggle-btn { position: fixed; bottom: 90px; right: 20px; width: 50px; height: 50px; border-radius: 50%; border: none; background-color: var(--button-bg-color); color: var(--button-text-color); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); cursor: pointer; z-index: 1000; transition: background-color 0.3s, transform 0.2s; }
+        .theme-toggle-btn:hover { transform: scale(1.1); }
+        .theme-toggle-btn svg { width: 24px; height: 24px; fill: var(--button-text-color); }
+        .theme-toggle-btn .sun-icon { display: none; }
+        .theme-toggle-btn .moon-icon { display: block; }
+        .dark-mode .theme-toggle-btn .sun-icon { display: block; }
+        .dark-mode .theme-toggle-btn .moon-icon { display: none; }
+        
+        .unlock-all-btn {
+            position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(90deg, #10B981, #059669); color: white;
+            text-align: center; padding: 18px; font-size: 1.2rem; font-weight: bold; text-decoration: none;
+            z-index: 999; box-shadow: 0 -4px 12px rgba(0,0,0,0.15); transition: background 0.3s ease;
+        }
+        .unlock-all-btn:hover { background: linear-gradient(90deg, #059669, #10B981); }
+
+        .premium-popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 1001; padding: 15px; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .premium-popup-overlay.show { opacity: 1; visibility: visible; }
+        .premium-popup-content { background: linear-gradient(145deg, #1f2937, #111827); color: #e5e7eb; font-family: 'Poppins', sans-serif; padding: 25px 32px; border-radius: 16px; max-width: 550px; width: 100%; text-align: center; position: relative; box-shadow: 0 0 25px rgba(8, 189, 128, 0.5); border: 1px solid #08BD80; transform: scale(0.95); transition: transform 0.3s ease; }
+        .premium-popup-overlay.show .premium-popup-content { transform: scale(1); }
+        .premium-popup-content .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #9ca3af; cursor: pointer; border: none; background: none; line-height: 1; }
+        .premium-popup-content h2 { font-size: 1.6rem; margin-bottom: 12px; color: #ffffff; font-weight: 700; }
+        
+        /* === NEW STYLES FOR FEATURE LIST === */
+        .premium-popup-content .features-title { font-size: 1.1rem; font-weight: 600; color: #ffffff; margin-top: 20px; margin-bottom: 16px; text-align: left; }
+        .premium-popup-content .features-list { list-style: none; padding: 0; text-align: left; margin: 0 0 24px 0; }
+        .premium-popup-content .features-list li { margin-bottom: 10px; font-size: 0.95rem; color: #d1d5db; display: flex; align-items: flex-start; }
+        .premium-popup-content .features-list li span { margin-right: 12px; line-height: 1.4; } /* Emoji span */
+        
+        .premium-popup-content .cta-button { display: block; width: 100%; background: linear-gradient(90deg, #34d399, #22c55e); color: #ffffff; text-decoration: none; padding: 16px; font-size: 1.2rem; font-weight: bold; border-radius: 12px; border: none; cursor: pointer; margin-top: 20px; }
+
+        @media (min-width: 768px) { .batches-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .batches-grid { grid-template-columns: repeat(3, 1fr); } }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header"><a href="https://studyzone-sandy.vercel.app/" aria-label="Go back"><svg class="back-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"></path></svg></a><h1>New Batches</h1></header>
+        <div class="search-container"><svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34C16.7 6.01 13.69 3 10 3S3.31 6.01 3.31 8.36c0 3.35 3.01 6.36 6.69 6.36 1.93 0 3.68-.87 4.88-2.25l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-5.5 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg><input type="text" id="searchInput" placeholder="Search by batch name..."><button class="search-btn">Search</button></div>
+        <main class="batches-grid" id="batchesGrid"></main>
+    </div>
+    
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme"><svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.64-.11 2.41-.31-2.03-1.03-3.41-3.1-3.41-5.49 0-3.31 2.69-6 6-6 .34 0 .68.03 1 .08-2.13-2.93-5.52-4.28-9-4.28z"></path></svg><svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.64 5.64c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 5.64zm12.72 12.72c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-1.06-1.06zM5.64 18.36l1.06-1.06c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0zM18.36 5.64l1.06 1.06c.39.39.39-1.02 0 1.41-.39.39-1.02.39-1.41 0l-1.06-1.06c-.39-.39-.39-1.02 0-1.41s1.02-.39 1.41 0z"></path></svg></button>
+    <a href="UnlockAllBatches.html" class="unlock-all-btn">🔓 Unlock All Batches</a>
+
+    <div id="premiumPopup" class="premium-popup-overlay">
+        <div class="premium-popup-content">
+            <button class="close-btn">×</button>
+            <h2>🎓 Unlock Your Full Learning Journey!</h2>
+            
+            <!-- UPDATED: Feature list added here -->
+            <h3 class="features-title">🔑 Key Features:</h3>
+            <ul class="features-list">
+                <li><span>✅</span> Unlock All Batches</li>
+                <li><span>🎓</span> All Courses Access</li>
+                <li><span>🧑‍🏫</span> Expert Faculty Support</li>
+                <li><span>📖</span> High-Quality Study Material</li>
+                <li><span>📊</span> Smart Progress Tracker</li>
+                <li><span>📱</span> User-Friendly Interface</li>
+                <li><span>🚫</span> No Ads – 100% Focus on Learning</li>
+            </ul>
+            
+            <a href="https://rzp.io/l/DAHadks" target="_blank" rel="noopener noreferrer" class="cta-button">🔓 Upgrade to Premium – Just ₹249</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const batchesGrid = document.getElementById('batchesGrid');
+            const searchInput = document.getElementById('searchInput');
+            const themeToggleButton = document.getElementById('theme-toggle');
+            const body = document.body;
+            function setTheme(theme) { if (theme === 'dark') { body.classList.add('dark-mode'); localStorage.setItem('theme', 'dark'); } else { body.classList.remove('dark-mode'); localStorage.setItem('theme', 'light'); } }
+            themeToggleButton.addEventListener('click', () => setTheme(body.classList.contains('dark-mode') ? 'light' : 'dark'));
+            setTheme(localStorage.getItem('theme') || 'light');
+            const batchesData = [{ headlink: "Phoenix 2.0 VIP Batch for IIT JEE 2026", image_link: "https://iili.io/FO1ui8l.webp" }, { headlink: "Nimbus Plus Batch for 2027 by Team Legends", image_link: "https://iili.io/FO1uL92.webp" }, { headlink: "IIT JEE subscription", image_link: "https://iili.io/FO1uPa4.webp" }, { headlink: "Phoenix Reloaded Batch for 2026 by Team Legends", image_link: "https://iili.io/FO1lg2e.webp" }, { headlink: "Nimbus Plus Batch for 2027 by Team Legends", image_link: "https://iili.io/FO1lrYu.webp" }];
+            function renderBatches(dataToRender) {
+                batchesGrid.innerHTML = ''; if (dataToRender.length === 0) { batchesGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; font-size: 1.2rem; padding: 2rem 0;">No batches found.</p>'; return; }
+                const defaultImage = 'https://via.placeholder.com/400x225.png?text=Course+Image';
+                dataToRender.forEach(batch => { const imageUrl = batch.image_link || defaultImage; const cardHTML = `<div class="batch-card"><div class="card-header"><button class="icon-btn favorite-btn" aria-label="Add to favorites"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg></button><span class="batch-name">${batch.headlink}</span><button class="icon-btn share-btn" aria-label="Share batch"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 8.81C7.5 8.31 6.79 8 6 8c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg></button></div><div class="card-body"><img src="${imageUrl}" alt="${batch.headlink}" class="course-details-img" onerror="this.onerror=null; this.src='${defaultImage}';"></div><div class="card-footer"><button class="roar-btn">LET'S ROAR<svg class="lion-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"></path></svg></button></div></div>`; batchesGrid.insertAdjacentHTML('beforeend', cardHTML); });
+            }
+            function handleSearch() { const searchTerm = searchInput.value.toLowerCase().trim(); const filteredBatches = batchesData.filter(batch => batch.headlink.toLowerCase().includes(searchTerm)); renderBatches(filteredBatches); }
+            searchInput.addEventListener('input', handleSearch);
+            batchesGrid.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.closest('.favorite-btn')) { alert('Added to your favorites!'); return; }
+                if (target.closest('.share-btn')) { alert('Sharing this batch!'); return; }
+                if (target.closest('.roar-btn')) { window.location.href = 'generatekey.html'; return; }
+            });
+            renderBatches(batchesData);
+            const premiumPopup = document.getElementById('premiumPopup');
+            const closeBtn = premiumPopup.querySelector('.close-btn');
+            let popupInterval;
+            const showPopup = () => premiumPopup.classList.add('show');
+            const hidePopup = () => { premiumPopup.classList.remove('show'); clearInterval(popupInterval); };
+            closeBtn.addEventListener('click', hidePopup);
+            premiumPopup.addEventListener('click', (event) => { if (event.target === premiumPopup) hidePopup(); });
+            popupInterval = setInterval(showPopup, 5000);
+        });
+    </script>
+</body>
+</html>
