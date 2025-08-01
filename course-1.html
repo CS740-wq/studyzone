@@ -253,3 +253,101 @@
 
 </body>
 </html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Glowing Button Example</title>
+    <style>
+        /* Is page ke content ke liye basic styling (sirf demonstration ke liye) */
+        body {
+            font-family: sans-serif;
+            background-color: #f0f2f5;
+            height: 200vh; /* Page ko lamba banate hain taki scroll kar sakein */
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1, p {
+            text-align: center;
+            color: #333;
+        }
+
+
+        /* --- FLOATING GLOWING BUTTON KI STYLING --- */
+
+        .floating-unlock-button {
+            /* 1. Positioning (Floating) */
+            position: fixed; /* Page ke saath scroll nahi hoga */
+            bottom: 30px;    /* Neeche se 30px upar */
+            left: 50%;       /* Screen ke center mein */
+            transform: translateX(-50%); /* Center mein aane ke liye horizontally adjust karein */
+            z-index: 1000;   /* Baki sab content ke upar rahega */
+
+            /* 2. Look and Feel (Design) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px; /* Icon aur text ke beech ka space */
+            background-color: #16a085; /* Image jaisa green color */
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px; /* Pill shape ke liye */
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+
+            /* 3. Glowing Animation */
+            animation: glow 2.5s ease-in-out infinite;
+        }
+
+        /* Hover effect (jab mouse upar aaye) */
+        .floating-unlock-button:hover {
+            transform: translateX(-50%) translateY(-5px); /* Thoda sa upar uthega */
+            box-shadow: 0 8px 25px rgba(22, 160, 133, 0.6);
+            /* Animation ko thoda tez kar sakte hain hover par */
+            animation-play-state: paused; /* Existing animation ko rokkar, naya shadow apply karega */
+        }
+        
+        .floating-unlock-button .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Keyframes for the glowing animation */
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px #16a085, 0 0 5px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(22, 160, 133, 0.8), 0 0 10px rgba(255, 255, 255, 0.2);
+            }
+            100% {
+                box-shadow: 0 0 5px #16a085, 0 0 5px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+  
+
+
+    <!-- ======================================================= -->
+    <!-- === YEH AAPKA FLOATING BUTTON HAI === -->
+    <!-- Isko apne page ke </body> tag se theek pehle paste karein -->
+    <!-- ======================================================= -->
+
+    <a href="generatekey.html" class="floating-unlock-button">
+        <span class="icon">🔓</span>
+        Unlock All Batches
+    </a>
+
+</body>
+</html>
