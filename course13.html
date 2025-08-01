@@ -50,6 +50,7 @@
 
         /* Header */
         .app-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .app-header a { display: flex; align-items: center; text-decoration: none; } /* Added for link styling */
         .app-header h1 { color: var(--primary-text-color); font-size: 1.5rem; margin: 0; }
         .app-header .back-arrow { fill: var(--primary-text-color); width: 28px; height: 28px; }
 
@@ -138,7 +139,10 @@
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
-            <svg class="back-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"></path></svg>
+            <!-- === BADLAV YAHAN KIYA GAYA HAI === -->
+            <a href="https://studyzone-sandy.vercel.app/">
+                <svg class="back-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"></path></svg>
+            </a>
             <h1>New Batches</h1>
         </header>
 
