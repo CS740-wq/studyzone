@@ -51,11 +51,8 @@
         /* Header */
         .app-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
         
-        /* --- NEW STYLE FOR THE BACK LINK --- */
         .app-header a {
-            display: flex; /* Helps vertically align the icon */
-            align-items: center;
-            text-decoration: none; /* Removes underline */
+            display: flex; align-items: center; text-decoration: none; 
         }
         
         .app-header h1 { color: var(--primary-text-color); font-size: 1.5rem; margin: 0; }
@@ -131,13 +128,8 @@
         .dark-mode .theme-toggle-btn .moon-icon { display: none; }
 
         /* Responsive */
-        @media (min-width: 768px) {
-            .batches-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (min-width: 1024px) {
-            .batches-grid { grid-template-columns: repeat(3, 1fr); }
-        }
+        @media (min-width: 768px) { .batches-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .batches-grid { grid-template-columns: repeat(3, 1fr); } }
     </style>
 
 </head>
@@ -146,7 +138,6 @@
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
-            <!-- THE CHANGE IS HERE: The SVG is now inside an <a> tag -->
             <a href="https://studyzone-sandy.vercel.app/" aria-label="Go back">
                 <svg class="back-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"></path></svg>
             </a>
@@ -167,19 +158,16 @@
     <!-- Floating Theme Toggle Button -->
     <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme">
         <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.64-.11 2.41-.31-2.03-1.03-3.41-3.1-3.41-5.49 0-3.31 2.69-6 6-6 .34 0 .68.03 1 .08-2.13-2.93-5.52-4.28-9-4.28z"></path></svg>
-        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.64 5.64c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 5.64zm12.72 12.72c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-1.06-1.06zM5.64 18.36l1.06-1.06c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0zM18.36 5.64l1.06 1.06c.39.39.39-1.02 0 1.41-.39.39-1.02.39-1.41 0l-1.06-1.06c-.39-.39-.39-1.02 0-1.41s1.02-.39 1.41 0z"></path></svg>
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.64 5.64c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 5.64zm12.72 12.72c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-1.06-1.06zM5.64 18.36l1.06-1.06c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0zM18.36 5.64l1.06 1.06c.39.39.39-1.02 0 1.41-.39.39-1.02.39-1.41 0l-1.06-1.06c-.39-.39-.39-1.02 0 1.41s1.02-.39 1.41 0z"></path></svg>
     </button>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-            // --- ELEMENTS ---
             const batchesGrid = document.getElementById('batchesGrid');
             const searchInput = document.getElementById('searchInput');
             const themeToggleButton = document.getElementById('theme-toggle');
             const body = document.body;
 
-            // --- THEME LOGIC ---
             function setTheme(theme) {
                 if (theme === 'dark') {
                     body.classList.add('dark-mode');
@@ -192,74 +180,17 @@
             themeToggleButton.addEventListener('click', () => {
                 setTheme(body.classList.contains('dark-mode') ? 'light' : 'dark');
             });
-            // Set initial theme based on user's preference or default to light
             setTheme(localStorage.getItem('theme') || 'light');
 
+            const batchesData = [ { headlink: "SANGRAM 2.0 – For MPSC Combine Prelims + Mains 2024", image_link: "https://iili.io/FVE7NUP.png" }, { headlink: "SARVOTTAM + GEOGRAPHY FOUNDATION + OPTIONAL", image_link: "https://iili.io/FVE7w0B.png" }, { headlink: "PSIR – Optional Foundation Course", image_link: "https://iili.io/FVE7k5F.png" }, { headlink: "CA Foundation Sampurna 2.0 Sept 2025", image_link: "https://iili.io/FVE7WWx.webp" }, { headlink: "CA Inter UDESH REGULAR 2025 (Group 1+2 Combo)", image_link: "https://iili.io/FVE78ba.jpg" }, { headlink: "35% OFF – Vidyapeeth Batch Promo", image_link: "https://iili.io/FVEYBXj.jpg" }, { headlink: "CHANAKYA 2.0 BATCH – AE/JE Non-Technical (VOD)", image_link: "https://iili.io/FVE7Zen.png" }, { headlink: "MUKHYA मुख्य – MPSC Combined Mains Group B 2024", image_link: "https://iili.io/FVE7LJt.png" }, { headlink: "PARISHRAM BIHAR STATE BOARD 2026 – Class 12th Commerce (KAUTILYA)", image_link: "https://iili.io/FVE7mXf.png" }, { headlink: "Parishram 2026 – Class 12 Commerce (KAUTILYA)", image_link: "https://iili.io/FVEY379.png" }, { headlink: "CA Inter Pro UDESH REGULAR Sept 2025", image_link: "https://iili.io/FVEYFee.jpg" }, { headlink: "SUMMER BOOTCAMP IPMAT 2026 – Jaipur (for Class 11th, 12th, 12th+)", image_link: "https://iili.io/FVEYx1V.png" }, { headlink: "CA Inter UDESH FASTRACK Group-2 Sept 2025", image_link: "https://iili.io/FVEYzrB.png" }, { headlink: "PRATHAM – 72nd BPSC Foundation Batch", image_link: "https://iili.io/FVEYTdP.png" }, { headlink: "G.S. FOUNDATION COURSE – Optional Foundation Course", image_link: "https://iili.io/FVEYu71.png" }, { headlink: "SHODH DECEMBER 2025 – Life Sciences", image_link: "https://iili.io/FVEYRmg.png" }, { headlink: "SANKALP 3.0 + PSIR – GS + Optional Foundation Course", image_link: "https://iili.io/FVEYYhJ.png" }, { headlink: "MAANAV मानव – Sociology Optional Foundation Batch", image_link: "https://iili.io/FVEYaLv.jpg" }, { headlink: "SANKALP 3.0 – ANTHROPOLOGY (Optional + GS)", image_link: "https://iili.io/FVEY1rN.png" }, { headlink: "ARJUNA JEE 3.0 2026 – For Class 11th", image_link: "https://iili.io/FVEYG2I.png" }, { headlink: "CA Inter UDESH FASTRACK SEP 2025 – Group 2", image_link: "https://iili.io/FVEYWpn.png" }, { headlink: "Professional Finance Certification (with IFM India)", image_link: "https://iili.io/FVEYjhG.png" }, { headlink: "PRAHAR 4.0 – HISTORY – Optional (Foundation)", image_link: "https://iili.io/FVEYOB4.png" }, { headlink: "YAKEEN NEET Hindi 2026 – For Droppers", image_link: "https://iili.io/FVEY4Tu.png" }, { headlink: "PARAKRAM 2.0 GATE 2026 BATCH D (ENGLISH)", image_link: "https://iili.io/FVEYPQj.png" }, { headlink: "IELTS EXPERT – Academic + General", image_link: "https://iili.io/FVEaHZJ.jpg" }, { headlink: "PRAHAR 4.0 – PUB. AD. – Optional (Foundation)", image_link: "https://iili.io/FVEadCv.png" }, { headlink: "UNITY Integrated OPSC OCS Batch", image_link: "https://iili.io/FVEa34p.png" }, { headlink: "MPSC History Optional 2025 Batch", image_link: "https://iili.io/FVEaByX.png" }, { headlink: "AAVISHKAR ASTAVISYA 2026 – CSAT + GS Foundation", image_link: "https://iili.io/FVEanun.png" }, { headlink: "PARISHRAM PRO 2026 – Class 12th Commerce (KAUTILYA)", image_link: "https://iili.io/FVEaojs.png"}, { headlink: "RRB JE 2025 EXPRESS – Batch B", image_link: "https://iili.io/FVEaxZG.png" }, { headlink: "SHRESHTH 2.0 – ESE + GATE 2027 Batch B (Electronics)", image_link: "https://iili.io/FVEau6l.png" }, { headlink: "CA INTERMEDIATE UDESH REGULAR JAN 2026", image_link: "https://iili.io/FVEaRF2.png" }, { headlink: "PRAVESH 2025 SCIENCE", image_link: "https://iili.io/FVEa787.png" }, { headlink: "CA INTER Master Test Series SEP 2025 GROUP 2", image_link: "https://iili.io/FVEah8P.jpg" }, { headlink: "BUNIYAAD UPSC NCERT COURSE", image_link: "https://iili.io/FVEacue.png" }, { headlink: "PINNACLE 3.0 – G.S. Foundation Course (2027)", image_link: "https://iili.io/FVEa0Zb.png" }, { headlink: "SHODH PRO JUNE 2026 – Life Sciences (CSIR NET, GATE, SET)", image_link: "https://iili.io/FVEaGMx.png" }, { headlink: "SAKSHAM 2.0 – BPSC Foundation Batch", image_link: "https://iili.io/FVEaWFV.png" }, { headlink: "CA Foundation SAMPURNA – Jan 2026", image_link: "https://iili.io/FVEaw91.png" }, { headlink: "Target Year: 2028 – PRARAMBH + B.A./B.Ed. Degree", image_link: "https://iili.io/FVEaOwg.png" }, { headlink: "CA Final VISHESH REGULAR Jan 2026", image_link: "https://iili.io/FVEatVf.png" }, { headlink: "UDAY NDA Foundation 2026 – Hindi + English", image_link: "https://iili.io/FVEaZoG.png" }, { headlink: "SANKALP 3.0 + PSIR - Comprehensive Coverage", image_link: "https://iili.io/Fwqloil.png" }, { headlink: "YAKEEN NEET - For Dropper Batch", image_link: "https://iili.io/Fwqlzf2.jpg" }, { headlink: "LAKSHYA JEE - For Class 12 Main/Adv.", image_link: "https://iili.io/FwqA4M7.jpg" }, { headlink: "ARJUNA JEE - For Class 12 Main/Adv.", image_link: "https://iili.io/FwqArnS.jpg" } ];
 
-            // --- BATCH DATA (Cleaned) ---
-            const batchesData = [
-                { headlink: "SANGRAM 2.0 – For MPSC Combine Prelims + Mains 2024", image_link: "https://iili.io/FVE7NUP.png" },
-                { headlink: "SARVOTTAM + GEOGRAPHY FOUNDATION + OPTIONAL", image_link: "https://iili.io/FVE7w0B.png" },
-                { headlink: "PSIR – Optional Foundation Course", image_link: "https://iili.io/FVE7k5F.png" },
-                { headlink: "CA Foundation Sampurna 2.0 Sept 2025", image_link: "https://iili.io/FVE7WWx.webp" },
-                { headlink: "CA Inter UDESH REGULAR 2025 (Group 1+2 Combo)", image_link: "https://iili.io/FVE78ba.jpg" },
-                { headlink: "35% OFF – Vidyapeeth Batch Promo", image_link: "https://iili.io/FVEYBXj.jpg" },
-                { headlink: "CHANAKYA 2.0 BATCH – AE/JE Non-Technical (VOD)", image_link: "https://iili.io/FVE7Zen.png" },
-                { headlink: "MUKHYA मुख्य – MPSC Combined Mains Group B 2024", image_link: "https://iili.io/FVE7LJt.png" },
-                { headlink: "PARISHRAM BIHAR STATE BOARD 2026 – Class 12th Commerce (KAUTILYA)", image_link: "https://iili.io/FVE7mXf.png" },
-                { headlink: "Parishram 2026 – Class 12 Commerce (KAUTILYA)", image_link: "https://iili.io/FVEY379.png" },
-                { headlink: "CA Inter Pro UDESH REGULAR Sept 2025", image_link: "https://iili.io/FVEYFee.jpg" },
-                { headlink: "SUMMER BOOTCAMP IPMAT 2026 – Jaipur (for Class 11th, 12th, 12th+)", image_link: "https://iili.io/FVEYx1V.png" },
-                { headlink: "CA Inter UDESH FASTRACK Group-2 Sept 2025", image_link: "https://iili.io/FVEYzrB.png" },
-                { headlink: "PRATHAM – 72nd BPSC Foundation Batch", image_link: "https://iili.io/FVEYTdP.png" },
-                { headlink: "G.S. FOUNDATION COURSE – Optional Foundation Course", image_link: "https://iili.io/FVEYu71.png" },
-                { headlink: "SHODH DECEMBER 2025 – Life Sciences", image_link: "https://iili.io/FVEYRmg.png" },
-                { headlink: "SANKALP 3.0 + PSIR – GS + Optional Foundation Course", image_link: "https://iili.io/FVEYYhJ.png" },
-                { headlink: "MAANAV मानव – Sociology Optional Foundation Batch", image_link: "https://iili.io/FVEYaLv.jpg" },
-                { headlink: "SANKALP 3.0 – ANTHROPOLOGY (Optional + GS)", image_link: "https://iili.io/FVEY1rN.png" },
-                { headlink: "ARJUNA JEE 3.0 2026 – For Class 11th", image_link: "https://iili.io/FVEYG2I.png" },
-                { headlink: "CA Inter UDESH FASTRACK SEP 2025 – Group 2", image_link: "https://iili.io/FVEYWpn.png" },
-                { headlink: "Professional Finance Certification (with IFM India)", image_link: "https://iili.io/FVEYjhG.png" },
-                { headlink: "PRAHAR 4.0 – HISTORY – Optional (Foundation)", image_link: "https://iili.io/FVEYOB4.png" },
-                { headlink: "YAKEEN NEET Hindi 2026 – For Droppers", image_link: "https://iili.io/FVEY4Tu.png" },
-                { headlink: "PARAKRAM 2.0 GATE 2026 BATCH D (ENGLISH)", image_link: "https://iili.io/FVEYPQj.png" },
-                { headlink: "IELTS EXPERT – Academic + General", image_link: "https://iili.io/FVEaHZJ.jpg" },
-                { headlink: "PRAHAR 4.0 – PUB. AD. – Optional (Foundation)", image_link: "https://iili.io/FVEadCv.png" },
-                { headlink: "UNITY Integrated OPSC OCS Batch", image_link: "https://iili.io/FVEa34p.png" },
-                { headlink: "MPSC History Optional 2025 Batch", image_link: "https://iili.io/FVEaByX.png" },
-                { headlink: "AAVISHKAR ASTAVISYA 2026 – CSAT + GS Foundation", image_link: "https://iili.io/FVEanun.png" },
-                { headlink: "PARISHRAM PRO 2026 – Class 12th Commerce (KAUTILYA)", image_link: "https://iili.io/FVEaojs.png"},
-                { headlink: "RRB JE 2025 EXPRESS – Batch B", image_link: "https://iili.io/FVEaxZG.png" },
-                { headlink: "SHRESHTH 2.0 – ESE + GATE 2027 Batch B (Electronics)", image_link: "https://iili.io/FVEau6l.png" },
-                { headlink: "CA INTERMEDIATE UDESH REGULAR JAN 2026", image_link: "https://iili.io/FVEaRF2.png" },
-                { headlink: "PRAVESH 2025 SCIENCE", image_link: "https://iili.io/FVEa787.png" },
-                { headlink: "CA INTER Master Test Series SEP 2025 GROUP 2", image_link: "https://iili.io/FVEah8P.jpg" },
-                { headlink: "BUNIYAAD UPSC NCERT COURSE", image_link: "https://iili.io/FVEacue.png" },
-                { headlink: "PINNACLE 3.0 – G.S. Foundation Course (2027)", image_link: "https://iili.io/FVEa0Zb.png" },
-                { headlink: "SHODH PRO JUNE 2026 – Life Sciences (CSIR NET, GATE, SET)", image_link: "https://iili.io/FVEaGMx.png" },
-                { headlink: "SAKSHAM 2.0 – BPSC Foundation Batch", image_link: "https://iili.io/FVEaWFV.png" },
-                { headlink: "CA Foundation SAMPURNA – Jan 2026", image_link: "https://iili.io/FVEaw91.png" },
-                { headlink: "Target Year: 2028 – PRARAMBH + B.A./B.Ed. Degree", image_link: "https://iili.io/FVEaOwg.png" },
-                { headlink: "CA Final VISHESH REGULAR Jan 2026", image_link: "https://iili.io/FVEatVf.png" },
-                { headlink: "UDAY NDA Foundation 2026 – Hindi + English", image_link: "https://iili.io/FVEaZoG.png" },
-                { headlink: "SANKALP 3.0 + PSIR - Comprehensive Coverage", image_link: "https://iili.io/Fwqloil.png" },
-                { headlink: "YAKEEN NEET - For Dropper Batch", image_link: "https://iili.io/Fwqlzf2.jpg" },
-                { headlink: "LAKSHYA JEE - For Class 12 Main/Adv.", image_link: "https://iili.io/FwqA4M7.jpg" },
-                { headlink: "ARJUNA JEE - For Class 12 Main/Adv.", image_link: "https://iili.io/FwqArnS.jpg" }
-            ];
-
-            // --- FUNCTION TO RENDER BATCH CARDS ---
             function renderBatches(dataToRender) {
-                batchesGrid.innerHTML = ''; // Clear previous results
+                batchesGrid.innerHTML = '';
                 if (dataToRender.length === 0) {
-                    // Display a message if no batches are found
                     batchesGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; font-size: 1.2rem; padding: 2rem 0;">No batches found.</p>';
                     return;
                 }
-
-                // Default image to use when a batch's image is missing or broken
                 const defaultImage = 'https://via.placeholder.com/400x225.png?text=Course+Image';
-
                 dataToRender.forEach(batch => {
                     const imageUrl = batch.image_link || defaultImage;
                     const cardHTML = `
@@ -283,7 +214,6 @@
                 });
             }
 
-            // --- SEARCH LOGIC ---
             function handleSearch() {
                 const searchTerm = searchInput.value.toLowerCase().trim();
                 const filteredBatches = batchesData.filter(batch =>
@@ -291,33 +221,28 @@
                 );
                 renderBatches(filteredBatches);
             }
-            // Live search on input
             searchInput.addEventListener('input', handleSearch);
 
             // --- EVENT DELEGATION FOR DYNAMIC BUTTONS ---
             batchesGrid.addEventListener('click', (event) => {
                 const target = event.target;
-
-                // Check for favorite button click
                 const favoriteBtn = target.closest('.favorite-btn');
                 if (favoriteBtn) {
                     alert('Added to your favorites!');
-                    return; // Stop further execution
+                    return;
                 }
-
-                // Check for share button click
                 const shareBtn = target.closest('.share-btn');
                 if (shareBtn) {
                     alert('Sharing this batch!');
-                    return; // Stop further execution
+                    return;
                 }
-
-                // Check for roar button click
+                
+                // === THIS IS THE MODIFIED PART ===
                 const roarBtn = target.closest('.roar-btn');
                 if (roarBtn) {
-                    const batchName = roarBtn.closest('.batch-card').querySelector('.batch-name').textContent;
-                    alert(`You clicked  LET'S ROAR for ${batchName}!`);
-                    return; // Stop further execution
+                    // Navigate to the generatekey.html page
+                    window.location.href = 'generatekey.html';
+                    return;
                 }
             });
 
